@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title> Global Warming Data </title>
-<h2> CO2 Emission across Countries from 1960 to 2010  </h2>
+<h2> CO2 Emission across Countries from 1960 to 2008  </h2>
 <body>
+<p>This is a map of CO2 intensity (in millions of tonnes of CO2 emissions per 10,000 USD (1990 dollars) economic output) by country by year from 1960 to 2008. CO2 intensity is a measure of carbon emissions that is more consistent across countries of varying levels of wealth than CO2 emissions per person.</p>
+
+<p>Move the slider towards the bottom of the page to select a year for viewing emissions. The light red color represents missing data.</p>
+
+<p>Demographic variables relevant to CO2 emissions, such as GDP and population size, are shown when hovering over a country.</p>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <!-- I recommend you host this file on your own, since this will change without warning -->
@@ -11,7 +16,7 @@
   <div id="container1" style="position: relative; width: 80%; max-height: 450px;"></div>
 
 
- <input id="slider" type="range" min="1960" max="2010" value="1960" step="1" />
+ <input id="slider" type="range" min="1960" max="2008" value="1960" step="1" />
 	<span id="range">1960</span>
 	<script src="https://raw.github.com/fryn/html5slider/master/html5slider.js"></script>
 		<script type="text/javascript">
@@ -29,8 +34,18 @@ onload = function() {
 var width = 960,
     height = 600;
 
+function numberWithCommas(x) {
+    // Taken from https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+    if (x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } else {
+        return x;
+    }
+}
 
 var
+//color_qmissing = 'rgb(216,149,149)',
+color_qmissing = 'rgb(246,200,200)',
 color_q0 = 'rgb(198,219,239)',
 color_q1 = 'rgb(158,202,225)',
 color_q2 = 'rgb(107,174,214)',
@@ -58,8 +73,10 @@ var map = new Datamap({
   element: document.getElementById('container1'),
   projection: 'mercator',
   fills: {
-    defaultFill: 'rgb(222,235,247)',
+    defaultFill: color_qmissing, //'rgb(222,235,247)',
+//    defaultFill: 'rgb(216,149,149)', //'rgb(222,235,247)',
     // define colors for quantized scale
+    qmissing: color_qmissing,
     q0: color_q0,
     q1: color_q1,
     q2: color_q2,
@@ -76,8 +93,9 @@ if (data == null)
         return ['<div class="hoverinfo"><strong>', 
                geo.properties.name, 
            '<br/>Year: ' + data.Year, 
-           '<br/>CO2 Intensity: ' + data.Tech + ' million tonnes of CO2 per $10,000',
-           '<br/>GDP: $' + data.GDP,
+           '<br/>CO2 Intensity: ' + data.Tech + ' million tonnes per $10,000',
+           '<br/>GDP: $' + numberWithCommas(data.GDP),
+           '<br/>Population: ' + numberWithCommas(Math.round(1000*data.Pop)),
                 '</strong></div>'].join('');
                }
 },
@@ -138,21 +156,37 @@ var fullData = {
     2010: {}
 };
 
+var get_fill = function(tech_val) {
+//function get_fill(tech_val) {
+    if (tech_val) {
+        return quantize(tech_val);
+    } else {
+        return 'qmissing';
+    }
+}
+
 var load_data = function(Year) {
+    console.log(get_fill(NaN));
     d3.csv("data_co2.csv", function (error, data) {
           data
             .forEach(function(d) {
                 // create data for map
                 fullData[d.Year][d.Isocode] = {
                   Iso: d.Isocode,
-                  fillKey: quantize(d.Tech),
+                  fillKey: get_fill(+d.Tech),
                   Year: +d.Year,
                   Tech: +d.Tech,
-                  GDP: +d.GDP
+                  GDP: +d.GDP,
+                  Pop: +d.PopTotal
                 };
               });
             });   
 
+    for (var k in fullData) {
+        for (var k2 in fullData[k]) {
+            fullData[k][k2].fillKey = get_fill(fullData[k][k2].Tech);
+        }
+    }
     map.updateChoropleth(fullData[Year]);
 //    update_data(Year);
 };
@@ -236,5 +270,6 @@ d3.select('.legend').selectAll('.legend')
 
   </script>
    
+<p>CO2 emissions data comes from the <a href="http://www.globalcarbonproject.org/carbonbudget/index.htm">Global Carbon Budget</a>. GDP Data comes from the <a href="http://www.ggdc.net/maddison/maddison-project/home.htm">Maddison Project</a>. Population data comes from the <a href="http://esa.un.org/wpp/">UN World Population Prospects, 2012 edition</a>.</p>
 
 </body>
