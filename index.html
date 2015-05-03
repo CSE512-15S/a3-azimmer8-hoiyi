@@ -88,16 +88,31 @@ var map = new Datamap({
   data: jsonMilExp,
   geographyConfig: {
     popupTemplate: function(geo, data) {
-if (data == null)
-        return '<div class="hoverinfo"><strong>No data available for ' + geo.properties.name + '</strong></div>';
-        return ['<div class="hoverinfo"><strong>', 
-               geo.properties.name, 
-           '<br/>Year: ' + data.Year, 
-           '<br/>CO2 Intensity: ' + data.Tech + ' million tonnes per $10,000',
-           '<br/>GDP: $' + numberWithCommas(data.GDP),
-           '<br/>Population: ' + numberWithCommas(Math.round(1000*data.Pop)),
-                '</strong></div>'].join('');
-               }
+        if (data == null) {
+            return '<div class="hoverinfo"><strong>No data available for ' + geo.properties.name + '</strong></div>';
+        } else {
+            if (data.Tech) {
+                str_tech =  '<br/>CO2 Intensity: ' + data.Tech + ' million tonnes per $10,000';
+            } else {
+                str_tech = '<br/>CO2 Intensity data missing';
+            }
+            if (data.GDP) {
+                str_gdp =  '<br/>GDP: $' + numberWithCommas(data.GDP);
+            } else {
+                str_gdp = '<br/>GDP data missing';
+            }
+ 
+            return ['<div class="hoverinfo"><strong>', 
+                   geo.properties.name, 
+               '<br/>Year: ' + data.Year, 
+//               '<br/>CO2 Intensity: ' + data.Tech + ' million tonnes per $10,000',
+               str_tech,
+//               '<br/>GDP per capita: $' + numberWithCommas(data.GDP),
+               str_gdp,
+               '<br/>Population: ' + numberWithCommas(Math.round(1000*data.Pop)),
+                    '</strong></div>'].join('');
+        }
+}
 },
   responsive: true
 });
