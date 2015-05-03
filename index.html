@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title> Global Warming Data </title>
-<h2> CO2 Emission across Counties from 1960 to 2010  </h2>
+<h2> CO2 Emission across Countries from 1960 to 2010  </h2>
 <body>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -76,10 +76,8 @@ if (data == null)
         return ['<div class="hoverinfo"><strong>', 
                geo.properties.name, 
            '<br/>Year: ' + data.Year, 
-           //'<br/>CO2 Intensity: ' + Math.round(data.Tech*1000)/1000,
-           '<br/>CO2 Intensity: ' + data.Tech,
-           //'<br/>GDP: ' + Math.round(data.GDP*1000)/1000, 
-           '<br/>GDP: ' + data.GDP,
+           '<br/>CO2 Intensity: ' + data.Tech + ' million tonnes of CO2 per $10,000',
+           '<br/>GDP: $' + data.GDP,
                 '</strong></div>'].join('');
                }
 },
