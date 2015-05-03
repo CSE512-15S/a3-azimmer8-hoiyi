@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title> Global Warming Data </title>
-<h2> CO2 Emission across Counties from 1960 to 2010  </h2>
+<h2> CO2 Emission across Countries from 1960 to 2010  </h2>
 <body>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -38,7 +38,9 @@ color_q3 = 'rgb(66,146,198)',
 color_q4 = 'rgb(33,113,181)',
 color_q5 = 'rgb(8,81,156)',
 color_q6 = 'rgb(8,48,107)',
+color_q7 = '#e4e4e4',
 colorScale = [
+  //color_q7,
   color_q6,
   color_q5,
   color_q4,
@@ -58,7 +60,7 @@ var map = new Datamap({
   element: document.getElementById('container1'),
   projection: 'mercator',
   fills: {
-    defaultFill: 'rgb(222,235,247)',
+    defaultFill: '#e4e4e4',
     // define colors for quantized scale
     q0: color_q0,
     q1: color_q1,
@@ -67,6 +69,7 @@ var map = new Datamap({
     q4: color_q4,
     q5: color_q5,
     q6: color_q6
+    //q7: color_q7
   },
   data: jsonMilExp,
   geographyConfig: {
@@ -140,12 +143,25 @@ var fullData = {
     2010: {}
 };
 
+//var discardna = function(n) {
+//    if (n > 0 ) {
+//        return n;} else{
+//            return 0;}
+
+//var NA = 0;
+
 var load_data = function(Year) {
     d3.csv("data_co2.csv", function (error, data) {
           data
             .forEach(function(d) {
                 // create data for map
                 fullData[d.Year][d.Isocode] = {
+                //if (d.Tech == null) {
+                //var color = '#e4e4e4'; 
+                //} else {
+                //var color = quantize(d.Tech);
+                //};
+                  //fillKey: color;
                   Iso: d.Isocode,
                   fillKey: quantize(d.Tech),
                   Year: +d.Year,
@@ -158,7 +174,6 @@ var load_data = function(Year) {
     map.updateChoropleth(fullData[Year]);
 //    update_data(Year);
 };
-
 
 var update_data = function(Year) {
     map.updateChoropleth(fullData[Year]);
@@ -231,10 +246,7 @@ d3.select('.legend').selectAll('.legend')
             .attr("font-family", "sans-serif")
             .attr("font-size", "12px")
             .attr("fill", "black");
-            
-
-
-
+        
 
   </script>
    
