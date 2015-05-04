@@ -12,10 +12,20 @@ Our visualization displays levels of CO2 intensity (CO2 emissions per economic o
 Download the files to a folder and run index.html (though not through Chrome since it won't load in the data).
 
 # Story Board
-We started off thinking of a way of viewing carbon emissions by country. We thought that a map would be a good way of displaying information by country in a way that makes geographic patterns transparent. The time dimension for this data is important, so we wanted to display the data across different time periods as well.
-
-There are also other variables which are important for analyzing this data, so we elected to display these variables when hovering over the country. Trying to show more in the base display would be too overwhelming.
-[more to come]
+See the [storyboard](storyboard.pdf). This also includes our final writeup. One thing we were unable to fix is that the data does not display on being loaded; one has to move the slider first for data to display.
 
 # Development Process
-[more to come]
+A lot of our time was spent on figuring out very basic HTML/Javascript/D3 actions. It's hard to describe who did what because most things were a combination of many little contributions from different people.
+* Initial planning/storyboarding - Alec and Hoiyi
+* Getting initial map displayed - Hoiyi and Alec
+* Loading in the data - Hoiyi and Alec
+* Creating hover icons - Hoiyi
+* Legend - Hoiyi
+* Modifying hover icon text - Alec
+* Time slider - Ning
+* Linking up slider to data - Ning and Alec
+* Speeding up data access to update immediately - Alec
+* Organization/setting up github/coordinating code - Alec
+* Writeup - Alec
+
+For Alec, the time division would probably be about 6 hours - writing stuff/setting up Github/coordinating over email with people, probably about 20-25 hours dealing with code, most of which was searching for stuff online, looking for examples, reading pieces of tutorials.
