@@ -1,32 +1,53 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title> Global Warming Data </title>
+<style>
+
+  
+	.d3-slider{
+	width: 400px;
+	margin-left:0px;
+	margin-right:auto;
+	}
+	
+  </style>
+  
 <h2> CO2 Emission across Countries from 1960 to 2008  </h2>
 <body>
-<p>This is a map of CO2 intensity (in millions of tonnes of CO2 emissions per 10,000 USD (1990 dollars) economic output) by country by year from 1960 to 2008. CO2 intensity is a measure of carbon emissions that is more consistent across countries of varying levels of wealth than CO2 emissions per person.</p>
+<p>   This is a map of CO2 intensity (in millions of tonnes of CO2 emissions per 10,000 USD (1990 dollars) economic output) by country by year from 1960 to 2008. CO2 intensity is a measure of carbon emissions that is more consistent across countries of varying levels of wealth than CO2 emissions per person.</p>
 
 <p>Move the slider towards the bottom of the page to select a year for viewing emissions. The light red color represents missing data.</p>
 
 <p>Demographic variables relevant to CO2 emissions, such as GDP and population size, are shown when hovering over a country.</p>
+
+
+<div class="d3-slider">
+<link rel="stylesheet" href="newslider.css" />  
+ <label for="slider" >CO2 Emission for Year: </label>
+ <span id="range" style="color:#f6931f; font-weight:bold; font-size:24px" >1960</span>
+ <input id="slider",class="slider" type="range" min="1960" max="2008" value="1960" step="1" herf="newslider.css" />
+</div>
+ <div id="container1" style="position: relative; width: 80%; max-height: 450px;"></div>
+
+
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <!-- I recommend you host this file on your own, since this will change without warning -->
   <script src="http://datamaps.github.io/scripts/datamaps.world.min.js?v=1"></script>
   <script src="http://datamaps.github.io/scripts/datamaps.world.min.js"></script>
-  <div id="container1" style="position: relative; width: 80%; max-height: 450px;"></div>
+  <script src="https://raw.github.com/fryn/html5slider/master/html5slider.js"></script>
+  <script type="text/javascript"></script>
+  
 
-
- <input id="slider" type="range" min="1960" max="2008" value="1960" step="1" />
-	<span id="range">1960</span>
-	<script src="https://raw.github.com/fryn/html5slider/master/html5slider.js"></script>
-		<script type="text/javascript">
-     
+ <script>    
 onload = function() {
   var $ = function(id) { return document.getElementById(id); };
   $('slider').oninput = function() { $('range').innerHTML = this.value; };
   $('slider').oninput();
 };
 </script>
+ 
+<p>CO2 emissions data comes from the <a href="http://www.globalcarbonproject.org/carbonbudget/index.htm">Global Carbon Budget</a>. GDP Data comes from the <a href="http://www.ggdc.net/maddison/maddison-project/home.htm">Maddison Project</a>. Population data comes from the <a href="http://esa.un.org/wpp/">UN World Population Prospects, 2012 edition</a>.</p>
 
      <script>
 var width = 960,
@@ -42,7 +63,7 @@ function numberWithCommas(x) {
 var
 //color_qmissing = 'rgb(216,149,149)',
 //color_qmissing = 'rgb(246,200,200)',
-color_qmissing = '#f0e4e4'
+color_qmissing = '#ede4e4'
 color_q0 = 'rgb(198,219,239)',
 color_q1 = 'rgb(158,202,225)',
 color_q2 = 'rgb(107,174,214)',
@@ -257,7 +278,5 @@ d3.select('.legend').selectAll('.legend')
             .attr("fill", "black");
             
   </script>
-   
-<p>CO2 emissions data comes from the <a href="http://www.globalcarbonproject.org/carbonbudget/index.htm">Global Carbon Budget</a>. GDP Data comes from the <a href="http://www.ggdc.net/maddison/maddison-project/home.htm">Maddison Project</a>. Population data comes from the <a href="http://esa.un.org/wpp/">UN World Population Prospects, 2012 edition</a>.</p>
-
+ 
 </body>
